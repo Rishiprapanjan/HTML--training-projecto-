@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glass Calculator Pro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght=300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(-45deg, #0f2027, #203a43, #2c5364, #141e30);
+            background-size: 400% 400%;
+            animation: bg 12s ease infinite;
+            overflow: hidden;
+            position: relative;
+        }
+
+        @keyframes bg {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            width: 350px;
+            height: 350px;
+            background: #00e5ff;
+            border-radius: 50%;
+            filter: blur(150px);
+            top: -120px;
+            left: -100px;
+            opacity: .5;
+            z-index: 0;
+        }
+
+        body::after {
+            content: '';
+            position: absolute;
+            width: 350px;
+            height: 350px;
+            background: #ff00c8;
+            border-radius: 50%;
+            filter: blur(150px);
+            right: -100px;
+            bottom: -120px;
+            opacity: .5;
+            z-index: 0;
+        }
+
+        .calculator {
+            position: relative;
+            z-index: 1;
+            width: 390px;
+            background: rgba(255, 255, 255, .08);
+            backdrop-filter: blur(18px);
+            border: 1px solid rgba(255, 255, 255, .2);
+            border-radius: 25px;
+            padding: 25px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, .5);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .clock {
+            font-size: 14px;
+            color: #ddd;
+        }
+
+        .display {
+            background: rgba(255, 255, 255, .08);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: inset 0 0 20px rgba(255, 255, 255, .08);
+        }
+
+        .previous {
+            height: 28px;
+            font-size: 18px;
+            text-align: right;
+            color: #bbb;
+            overflow: hidden;
+            word-wrap: break-word;
+        }
+
+        .current {
+            height: 60px;
+            font-size: 40px;
+            text-align: right;
+            font-weight: 600;
+            color: white;
+            overflow-x: auto;
+            overflow-y: hidden;
+            white-space: nowrap;
+        }
+
+        .history {
+            height: 110px;
+            overflow-y: auto;
+            background: rgba(255, 255, 255, .04);
+            padding: 10px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            color: white;
+            font-size: 14px;
+        }
+
+        .history h3 {
+            margin-bottom: 10px;
+            font-size: 15px;
+            position: sticky;
+            top: 0;
+            background: rgba(30, 40, 50, 0.9);
+            padding: 2px 5px;
+            border-radius: 5px;
+        }
+
+        .history div {
+            padding: 6px 5px;
+            border-bottom: 1px solid rgba(255, 255, 255, .1);
+            word-break: break-all;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        button {
+            height: 68px;
+            border: none;
+            border-radius: 18px;
+            font-size: 22px;
+            cursor: pointer;
+            transition: .25s;
+            background: rgba(255, 255, 255, .08);
+            color: white;
+            backdrop-filter: blur(10px);
+        }
+
+        button:hover {
+            transform: translateY(-4px);
+            background: rgba(255, 255, 255, .15);
+            box-shadow: 0 10px 25px rgba(255, 255, 255, .1);
+        }
+
+        button:active {
+            transform: scale(.95);
+        }
+
+        .operator { background: #0099ff; }
+        .operator:hover { background: #00b7ff; }
+        .equal { background: #00c853; }
+        .equal:hover { background: #00e676; }
+        .clear { background: #ff1744; }
+        .clear:hover { background: #ff4569; }
+        .zero { grid-column: span 2; }
+
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-thumb { background: #777; border-radius: 20px; }
+
+        @media(max-width: 450px) {
+            .calculator { width: 95%; }
+            button { height: 60px; font-size: 20px; }
+            .current { font-size: 32px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="calculator">
+    <div class="header">
+        <div class="logo">CALC PRO</div>
+        <div class="clock" id="clock">00:00:00</div>
+    </div>
+
+    <div class="display">
+        <div class="previous" id="previous"></div>
+        <div class="current" id="current">0</div>
+    </div>
+
+    <div class="history">
+        <h3>History</h3>
+        <div id="historyList"></div>
+    </div>
+
+    <div class="buttons">
+        <button class="clear" data-action="clear">AC</button>
+        <button data-action="backspace">⌫</button>
+        <button data-action="percent">%</button>
+        <button class="operator" data-value="/">÷</button>
+
+        <button data-value="7">7</button>
+        <button data-value="8">8</button>
+        <button data-value="9">9</button>
+        <button class="operator" data-value="*">×</button>
+
+        <button data-value="4">4</button>
+        <button data-value="5">5</button>
+        <button data-value="6">6</button>
+        <button class="operator" data-value="-">-</button>
+
+        <button data-value="1">1</button>
+        <button data-value="2">2</button>
+        <button data-value="3">3</button>
+        <button class="operator" data-value="+">+</button>
+
+        <button class="zero" data-value="0">0</button>
+        <button data-value=".">.</button>
+        <button class="equal" data-action="calculate">=</button>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    
+    const clockElement = document.getElementById('clock');
+    const previousDisplay = document.getElementById('previous');
+    const currentDisplay = document.getElementById('current');
+    const historyList = document.getElementById('historyList');
+    const buttons = document.querySelectorAll('.buttons button');
+
+    let currentInput = '0';
+    let previousInput = '';
+    let shouldResetDisplay = false;
+
+   
+    function updateClock() {
+        const now = new Date();
+        const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
+        clockElement.textContent = timeString;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    buttons.forEach(button => {
+        button.addEventListener('click', () => {
+            const value = button.getAttribute('data-value');
+            const action = button.getAttribute('data-action');
+
+            if (value !== null) {
+                handleNumberOrOperator(value);
+            } else if (action !== null) {
+                handleAction(action);
+            }
+            updateDisplay();
+        });
+    });
+
+    function handleNumberOrOperator(val) {
+        const isOperator = ['+', '-', '*', '/'].includes(val);
+
+        if (isOperator) {
+            shouldResetDisplay = false;
+            
+            const lastChar = currentInput.trim().slice(-1);
+            if (['+', '-', '*', '/'].includes(lastChar)) {
+                currentInput = currentInput.trim().slice(0, -1) + ` ${val} `;
+                return;
+            }
+            
+            if (currentInput === '0' || currentInput === 'Error') {
+                currentInput = '0' + ` ${val} `;
+            } else {
+                currentInput += ` ${val} `;
+            }
+        } else {
+            
+            if (currentInput === '0' || shouldResetDisplay || currentInput === 'Error') {
+                currentInput = val === '.' ? '0.' : val;
+                shouldResetDisplay = false;
+            } else {
+                
+                if (val === '.') {
+                    const segments = currentInput.split(/[\+\-\*\/]/);
+                    const activeSegment = segments[segments.length - 1];
+                    if (activeSegment.includes('.')) return; 
+                }
+                currentInput += val;
+            }
+        }
+    }
+
+    function handleAction(action) {
+        switch (action) {
+            case 'clear':
+                currentInput = '0';
+                previousInput = '';
+                break;
+
+            case 'backspace':
+                if (currentInput === 'Error' || currentInput.length <= 1) {
+                    currentInput = '0';
+                } else {
+                    // Cleanly remove operators and trailing whitespaces
+                    currentInput = currentInput.trim().slice(0, -1).trim();
+                    if (currentInput === '') currentInput = '0';
+                }
+                break;
+
+            case 'percent':
+                if (currentInput !== 'Error' && currentInput !== '0') {
+                    try {
+                        let evaluated = eval(currentInput.replace(/×/g, '*').replace(/÷/g, '/'));
+                        currentInput = (parseFloat(evaluated) / 100).toString();
+                    } catch {
+                        currentInput = 'Error';
+                    }
+                }
+                break;
+
+            case 'calculate':
+                if (currentInput.trim() === '' || currentInput === 'Error') return;
+                
+                let expression = currentInput.trim();
+                if (['+', '-', '*', '/'].includes(expression.slice(-1))) {
+                    expression = expression.slice(0, -1).trim();
+                }
+
+                try {
+                    const cleanExpression = expression.replace(/×/g, '*').replace(/÷/g, '/');
+                    const result = eval(cleanExpression);
+                    
+                    if (result === Infinity || Number.isNaN(result)) {
+                        throw new Error();
+                    }
+
+                    
+                    const finalResult = Number(Math.round(result + 'e+10') + 'e-10').toString();
+                    
+                    previousInput = expression.replace(/\*/g, '×').replace(/\//g, '÷') + ' =';
+                    addHistoryItem(previousInput, finalResult);
+                    
+                    currentInput = finalResult;
+                    shouldResetDisplay = true;
+                } catch (err) {
+                    currentInput = 'Error';
+                    previousInput = '';
+                }
+                break;
+        }
+    }
+
+   
+    function updateDisplay() {
+        let visualCurrent = currentInput.replace(/\*/g, '×').replace(/\//g, '÷');
+        currentDisplay.textContent = visualCurrent;
+        previousDisplay.textContent = previousInput;
+        
+       
+        currentDisplay.scrollLeft = currentDisplay.scrollWidth;
+    }
+
+    
+    function addHistoryItem(expr, res) {
+        const historyItem = document.createElement('div');
+        historyItem.innerHTML = `<span style="color: #bbb;">${expr}</span> <strong style="color: #00e676;">${res}</strong>`;
+        
+        
+        historyList.insertBefore(historyItem, historyList.firstChild);
+    }
+});
+</script>
+</body>
+</html>
