@@ -1,62 +1,125 @@
-import { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
+function EmployeeForm({ onSave, editEmployee }) {
+  const [employee, setEmployee] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    department: "",
+    designation: "",
+    salary: "",
+  });
 
-function EmployeeForm({
-    addEmployee,editEmployee,updateEmployee
-}){
-
-const [employee,setEmployee] =useState({
-    name:"",
-    department:"",
-    email:""
-});
-
-useEffect(()=>{
-    if(editEmployee){
-        setEmployee(editEmployee);
+  useEffect(() => {
+    if (editEmployee) {
+      setEmployee(editEmployee);
     }
-},[editEmployee]);
+  }, [editEmployee]);
 
-//Handles the typing
-const handleChange=(event)=>{
+  const handleChange = (e) => {
     setEmployee({
-        ...employee,//existing will remain same
-        [event.target.name]:event.target.value// change only the updated field
+      ...employee,
+      [e.target.name]: e.target.value,
     });
-};
+  };
 
-const handleSubmit=(event)=>{
-  event.preventDefault();
-        if(editEmployee){
-            updateEmployee(employee);
-        }
-        else{
-            addEmployee(employee);
-        }
-setEmployee({
-    name:"",
-    department:"",
-    email:""
-});
-    
-};
-return(
-    <div>
-        <h2>{editEmployee ? "Update Employee":"Add Employee"}</h2>
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-        <form onSubmit={handleSubmit}>
-            <input type="text" name="name" plaeholder="Enter your name"
-            value={employee.name} onChange={handleChange}/><br></br>
-            <input type="text" name="department" plaeholder="Enter your Department"
-            value={employee.department} onChange={handleChange}/><br></br>
-            <input type="text" name="email" plaeholder="Enter your Email"
-            value={employee.email} onChange={handleChange}/><br></br>
-            <button>{editEmployee ? "Update":"Add"}</button>
-        </form>
+    if (
+      !employee.name ||
+      !employee.email ||
+      !employee.phone ||
+      !employee.department ||
+      !employee.designation ||
+      !employee.salary
+    ) {
+      alert("Please fill all fields.");
+      return;
+    }
+
+    onSave(employee);
+
+    setEmployee({
+      name: "",
+      email: "",
+      phone: "",
+      department: "",
+      designation: "",
+      salary: "",
+    });
+  };
+
+  return (
+    <div className="form-section">
+
+      <h2>
+        {editEmployee ? "✏️ Edit Employee" : "➕ Add Employee"}
+      </h2>
+
+      <form onSubmit={handleSubmit}>
+
+        <input
+          type="text"
+          name="name"
+          placeholder="Full Name"
+          value={employee.name}
+          onChange={handleChange}
+        />
+
+        <input
+          type="email"
+          name="email"
+          placeholder="Email"
+          value={employee.email}
+          onChange={handleChange}
+        />
+
+        <input
+          type="text"
+          name="phone"
+          placeholder="Phone Number"
+          value={employee.phone}
+          onChange={handleChange}
+        />
+
+        <select
+          name="department"
+          value={employee.department}
+          onChange={handleChange}
+        >
+          <option value="">Select Department</option>
+          <option>IT</option>
+          <option>HR</option>
+          <option>Finance</option>
+          <option>Marketing</option>
+          <option>Sales</option>
+        </select>
+
+        <input
+          type="text"
+          name="designation"
+          placeholder="Designation"
+          value={employee.designation}
+          onChange={handleChange}
+        />
+
+        <input
+          type="number"
+          name="salary"
+          placeholder="Salary"
+          value={employee.salary}
+          onChange={handleChange}
+        />
+
+        <button className="btn" type="submit">
+          {editEmployee ? "Update Employee" : "Add Employee"}
+        </button>
+
+      </form>
+
     </div>
-
-
-);
+  );
 }
 
 export default EmployeeForm;
