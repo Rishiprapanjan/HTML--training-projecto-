@@ -1,0 +1,93 @@
+{
+  "employees": [
+    {
+      "id": "emp001",
+      "name": "Jane Doe",
+      "email": "emp123@company.com",
+      "phone": "+91 98765 43210",
+      "department": "Engineering",
+      "designation": "Frontend Developer",
+      "salary": "95000",
+      "dateOfJoining": "2024-03-15",
+      "profileImage": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150"
+    },
+    {
+      "id": "emp002",
+      "name": "John Smith",
+      "email": "john.smith@company.com",
+      "phone": "+91 98765 43211",
+      "department": "Design",
+      "designation": "UI/UX Designer",
+      "salary": "85000",
+      "dateOfJoining": "2024-05-10",
+      "profileImage": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150"
+    },
+    {
+      "id": "emp003",
+      "name": "Sarah Connor",
+      "email": "sarah.c@company.com",
+      "phone": "+91 98765 43212",
+      "department": "Engineering",
+      "designation": "Engineering Lead",
+      "salary": "140000",
+      "dateOfJoining": "2023-01-20",
+      "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150"
+    },
+    {
+      "id": "emp004",
+      "name": "David Miller",
+      "email": "david.m@company.com",
+      "phone": "+91 98765 43213",
+      "department": "Marketing",
+      "designation": "SEO Specialist",
+      "salary": "65000",
+      "dateOfJoining": "2025-02-01",
+      "profileImage": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150"
+    },
+    {
+      "id": "emp005",
+      "name": "Emma Wilson",
+      "email": "emma.w@company.com",
+      "phone": "+91 98765 43214",
+      "department": "HR",
+      "designation": "HR Executive",
+      "salary": "70000",
+      "dateOfJoining": "2024-11-15",
+      "profileImage": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150"
+    },
+    {
+      "id": "emp006",
+      "name": "Robert Downey",
+      "email": "robert.d@company.com",
+      "phone": "+91 98765 43215",
+      "department": "Finance",
+      "designation": "Financial Analyst",
+      "salary": "90000",
+      "dateOfJoining": "2023-08-10",
+      "profileImage": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150"
+    },
+    {
+      "id": "BAKOc8LldJQ",
+      "name": "RISHIPRAPANJAN S",
+      "email": "720823108038@hit.edu.in",
+      "phone": "+91 8838022352",
+      "department": "Engineering",
+      "designation": "Frontend Developer",
+      "salary": "56778",
+      "dateOfJoining": "",
+      "profileImage": "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150"
+    },
+    {
+      "id": "rb1P3hZ1B7g",
+      "name": "charan",
+      "email": "ram@gmail.com",
+      "phone": "",
+      "department": "Engineering",
+      "designation": "Frontend Developer",
+      "salary": "507000",
+      "dateOfJoining": "2026-07-15",
+      "profileImage": "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}

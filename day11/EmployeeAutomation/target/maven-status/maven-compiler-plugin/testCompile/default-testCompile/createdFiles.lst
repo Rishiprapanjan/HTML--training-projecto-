@@ -1,0 +1,4 @@
+com\employee\automation\tests\LoginTests.class
+com\employee\automation\base\BaseTest.class
+com\employee\automation\listeners\TestListener.class
+com\employee\automation\tests\EmployeeTests.class
